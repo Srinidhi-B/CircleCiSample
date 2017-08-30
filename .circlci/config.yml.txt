@@ -21,11 +21,6 @@ jobs:
       JVM_OPTS: -Xmx3200m
       TERM: dumb
 
-
-    dependencies:
-       override:
-          - chmod +x gradlew
-
     
     steps:
       - checkout
@@ -36,6 +31,8 @@ jobs:
           - v1-dependencies-{{ checksum "build.gradle" }}
           # fallback to using the latest cache if no exact match is found
           - v1-dependencies-
+       
+      - chmod +x gradlew
 
       - run: gradle dependencies
 
