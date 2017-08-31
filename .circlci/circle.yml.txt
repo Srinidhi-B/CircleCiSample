@@ -47,11 +47,13 @@ jobs:
             - ~/.m2
           key: v1-dependencies-{{ checksum "build.gradle" }}
         
-      # run tests!
-      - run: gradle test
-    test:
-     pre:
-        - emulator -avd circleci-android24 -no-window:
-          background: true
-          parallel: true
-        - circle-android wait-for-boot 
+      test:
+  override:
+    # start the emulator
+    - emulator -avd circleci-android24 -no-window:
+        background: true
+        parallel: true
+    # wait for it to have booted
+    - circle-android wait-for-boot
+    # run tests  against the emulator.
+    - ./gradlew connectedAndroidTest
