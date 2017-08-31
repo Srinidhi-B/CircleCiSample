@@ -23,7 +23,11 @@ jobs:
 
     dependencies:
        override:
-          - chmod +x gradlew 
+          - chmod +x gradlew
+    machine:
+       environment:
+          QEMU_AUDIO_DRV: none
+
     
     steps:
       - checkout
@@ -45,7 +49,9 @@ jobs:
         
       # run tests!
       - run: gradle test
-      - emulator -avd circleci-android24 -no-window:
-        background: true
-        parallel: true
-      - circle-android wait-for-boot
+    test:
+     pre:
+        - emulator -avd circleci-android24 -no-window:
+          background: true
+          parallel: true
+        - circle-android wait-for-boot 
